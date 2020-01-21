@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { CommonModule } from "@angular/common";
-import { animate, state, style, transition, trigger } from "@angular/animations";
 
 // AMCharts Modules
 import * as am4core from "@amcharts/amcharts4/core";
@@ -82,7 +80,7 @@ export class AppComponent {
     tbp: 5000,
     success: 9200,
     failed: 2020,
-    start: "2019-12-23T18:25:43-05:00",
+    start: new Date("2019-12-23T18:25:43-05:00").toDateString(),
     end: "",
   }, {
     "batchId": "BE_2",
@@ -90,15 +88,15 @@ export class AppComponent {
     tbp: 6400,
     success: 10400,
     failed: 2027,
-    start: "2019-12-24T18:25:43-05:00",
-    end: "2019-12-26T18:25:43-05:00",
+    start: new Date("2019-12-24T18:25:43-05:00").toDateString(),
+    end: new Date("2019-12-26T18:25:43-05:00").toDateString(),
   }, {
     "batchId": "BE_3",
     total: 21434,
     tbp: 7800,
     success: 11600,
     failed: 2034,
-    start: "2019-12-25T18:25:43-05:00",
+    start: new Date("2019-12-25T18:25:43-05:00").toDateString(),
     end: "",
   }, {
     "batchId": "BE_4",
@@ -106,7 +104,7 @@ export class AppComponent {
     tbp: 9200,
     success: 12800,
     failed: 2041,
-    start: "2019-12-26T18:25:43-05:00",
+    start: new Date("2019-12-26T18:25:43-05:00").toDateString(),
     end: "",
   }, {
     "batchId": "BE_5",
@@ -114,15 +112,15 @@ export class AppComponent {
     tbp: 10600,
     success: 14000,
     failed: 2048,
-    start: "2019-12-27T18:25:43-05:00",
-    end: "2019-12-31T18:25:43-05:00",
+    start: new Date("2019-12-27T18:25:43-05:00").toDateString(),
+    end: new Date("2019-12-31T18:25:43-05:00").toDateString(),
   }, {
     "batchId": "BE_6",
     total: 19255,
     tbp: 12000,
     success: 15200,
     failed: 2055,
-    start: "2019-12-28T18:25:43-05:00",
+    start: new Date("2019-12-28T18:25:43-05:00").toDateString(),
     end: "",
   }, {
     "batchId": "BE_7",
@@ -130,7 +128,7 @@ export class AppComponent {
     tbp: 13400,
     success: 16400,
     failed: 2062,
-    start: "2019-12-29T18:25:43-05:00",
+    start: new Date("2019-12-29T18:25:43-05:00").toDateString(),
     end: "",
   }, {
     "batchId": "BE_8",
@@ -138,7 +136,7 @@ export class AppComponent {
     tbp: 14800,
     success: 17600,
     failed: 2069,
-    start: "2019-12-30T18:25:43-05:00",
+    start: new Date("2019-12-30T18:25:43-05:00").toDateString(),
     end: "",
   }, {
     "batchId": "BE_9",
@@ -146,7 +144,7 @@ export class AppComponent {
     tbp: 16200,
     success: 18800,
     failed: 2076,
-    start: "2019-12-31T18:25:43-05:00",
+    start: new Date("2019-12-31T18:25:43-05:00").toDateString(),
     end: "",
   }, {
     "batchId": "BE_10",
@@ -154,13 +152,20 @@ export class AppComponent {
     tbp: 17600,
     success: 20000,
     failed: 2083,
-    start: "2020-01-01T18:25:43-05:00",
-    end: "2020-01-05T18:25:43-05:00",
-  },]
+    start: new Date("2020-01-01T18:25:43-05:00").toDateString(),
+    end: new Date("2020-01-05T18:25:43-05:00").toDateString(),
+  }]
+
+  colorList = [
+    am4core.color("#44bd32"), //Success
+    am4core.color("#e74c3c"), //Failed
+    am4core.color("#f1c40f")  //TBP
+  ]
+
   ngOnInit() {
     this.extractionBatchChart();
     this.batchStatus(0);
-    this.documentStatus(0)
+    this.documentStatus(0);
   }
 
   extractionBatchChart() {
@@ -170,8 +175,12 @@ export class AppComponent {
     // Add data
     chart.data = this.batchData;
 
+
     chart.legend = new am4charts.Legend();
     chart.legend.position = "right";
+
+    // Color Change
+    chart.colors.list = this.colorList
 
     // Create axes
     let categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
@@ -199,6 +208,7 @@ export class AppComponent {
       // Configure columns
       series.columns.template.width = am4core.percent(60);
       series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{valueX}: {categoryY}";
+
     }
 
     createSeries("success", "Success");
@@ -235,6 +245,8 @@ export class AppComponent {
     series.dataFields.category = "name";
 
     series.hiddenState.properties.endAngle = -90; //Creates rotation
+
+    series.colors.list = this.colorList
   }
 
   // Doughnut chart for Documents
@@ -266,5 +278,7 @@ export class AppComponent {
     series.dataFields.category = "name";
 
     series.hiddenState.properties.endAngle = -90; //Creates rotation
+
+    series.colors.list = this.colorList
   }
 }

@@ -1,27 +1,70 @@
 <section id="dashboardSection" class="py-3">
-  <div class="container mat-elevation-z1">
-    <div class="row">
-      <div class="col">
-        <h5 class="text-uppercase text-black-50">Dashboard</h5>
+  <div class="container z-depth-1">
+
+    <!-- <input [(colorPicker)]="color" [style.background]="color" [value]="color" id=""> -->
+    <!-- Stacked Bar Chart -->
+    <div class="row py-3">
+      <div class="col text-center">
+        <h4 class="text-uppercase">Extraction batch - stacked bar chart</h4>
+        <div id="extractionBatchChart" class="chart-fit z-depth-1-half"></div>
       </div>
     </div>
-    <div class="row">
+
+    <!-- Buttons -->
+    <div class="row py-3">
       <div class="col text-center">
-        <div id="extractionBatchChart" class="stacked-bar-chart"></div>
         <div class="btn-group btn-group-sm" role="group">
-          <button *ngFor="let batch of batchData; let i = index" id="BE_{{i+1}}" type="button" class="btn btn-warning"
-            (click)="batchStatus(i); documentStatus(i)">BE_{{i+1}}</button>
+          <button *ngFor="let batch of batchData; let i = index" id="BE_{{i+1}}" type="button"
+            class="btn btn-outline-warning" (click)="batchStatus(i); documentStatus(i)">BE_{{i+1}}</button>
         </div>
       </div>
     </div>
-    <div class="row">
+
+    <!-- Doughnut Charts -->
+    <div class="row py-3">
       <div class="col">
-        <div id="batchStatus" style="height: 20rem; width: auto;" class="font-size-09"></div>
+        <h4 class="text-uppercase text-center">Batch Status</h4>
+        <div id="batchStatus" class="chart-fit font-size-08 z-depth-1-half"></div>
       </div>
       <div class="col">
-        <div id="documentStatus" style="height: 20rem; width: auto;" class="font-size-09"></div>
+        <h4 class="text-uppercase text-center">Document status</h4>
+        <div id="documentStatus" class="chart-fit font-size-08 z-depth-1-half"></div>
       </div>
     </div>
+    <!-- Doughnut Charts - End -->
+
+    <!-- Document Status Table -->
+    <div class="row py-3">
+      <div class="col">
+        <h4 class="text-center text-uppercase">Document Status Table</h4>
+        <table class="table z-depth-1-half text-center table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Batch ID</th>
+              <th scope="col">Total Documents</th>
+              <th scope="col">To be Processed</th>
+              <th scope="col">Success</th>
+              <th scope="col">Failed</th>
+              <th scope="col">Start</th>
+              <th scope="col">End</th>
+            </tr>
+          </thead>
+          <tbody class="on-hover">
+            <tr *ngFor="let document of documentData; let i = index" (click)="documentStatus(i)">
+              <th scope="row">{{document.batchId}}</th>
+              <td>{{document.total}}</td>
+              <td>{{document.tbp}}</td>
+              <td>{{document.success}}</td>
+              <td>{{document.failed}}</td>
+              <td>{{document.start}}</td>
+              <td *ngIf="document.end">{{document.end}}</td>
+              <td *ngIf="!document.end">--</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Document Status Table - End -->
   </div>
 </section>
 
