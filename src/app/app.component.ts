@@ -17,14 +17,7 @@ am4core.useTheme(am4themes_material);
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   batchData = [{
@@ -84,11 +77,90 @@ export class AppComponent {
     tbp: 600
   }]
   documentData = [{
-
-  }]
+    "batchId": "BE_1",
+    total: 16220,
+    tbp: 5000,
+    success: 9200,
+    failed: 2020,
+    start: "2019-12-23T18:25:43-05:00",
+    end: "",
+  }, {
+    "batchId": "BE_2",
+    total: 18227,
+    tbp: 6400,
+    success: 10400,
+    failed: 2027,
+    start: "2019-12-24T18:25:43-05:00",
+    end: "2019-12-26T18:25:43-05:00",
+  }, {
+    "batchId": "BE_3",
+    total: 21434,
+    tbp: 7800,
+    success: 11600,
+    failed: 2034,
+    start: "2019-12-25T18:25:43-05:00",
+    end: "",
+  }, {
+    "batchId": "BE_4",
+    total: 24041,
+    tbp: 9200,
+    success: 12800,
+    failed: 2041,
+    start: "2019-12-26T18:25:43-05:00",
+    end: "",
+  }, {
+    "batchId": "BE_5",
+    total: 26648,
+    tbp: 10600,
+    success: 14000,
+    failed: 2048,
+    start: "2019-12-27T18:25:43-05:00",
+    end: "2019-12-31T18:25:43-05:00",
+  }, {
+    "batchId": "BE_6",
+    total: 19255,
+    tbp: 12000,
+    success: 15200,
+    failed: 2055,
+    start: "2019-12-28T18:25:43-05:00",
+    end: "",
+  }, {
+    "batchId": "BE_7",
+    total: 31862,
+    tbp: 13400,
+    success: 16400,
+    failed: 2062,
+    start: "2019-12-29T18:25:43-05:00",
+    end: "",
+  }, {
+    "batchId": "BE_8",
+    total: 34469,
+    tbp: 14800,
+    success: 17600,
+    failed: 2069,
+    start: "2019-12-30T18:25:43-05:00",
+    end: "",
+  }, {
+    "batchId": "BE_9",
+    total: 37076,
+    tbp: 16200,
+    success: 18800,
+    failed: 2076,
+    start: "2019-12-31T18:25:43-05:00",
+    end: "",
+  }, {
+    "batchId": "BE_10",
+    total: 39683,
+    tbp: 17600,
+    success: 20000,
+    failed: 2083,
+    start: "2020-01-01T18:25:43-05:00",
+    end: "2020-01-05T18:25:43-05:00",
+  },]
   ngOnInit() {
     this.extractionBatchChart();
     this.batchStatus(0);
+    this.documentStatus(0)
   }
 
   extractionBatchChart() {
@@ -133,6 +205,8 @@ export class AppComponent {
     createSeries("failed", "Failed");
     createSeries("tbp", "To Be Processed");
   }
+
+  // Doughnut chart for Batches
   batchStatus(index) {
     let chart = am4core.create("batchStatus", am4charts.PieChart3D);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
@@ -162,7 +236,35 @@ export class AppComponent {
 
     series.hiddenState.properties.endAngle = -90; //Creates rotation
   }
-  documentStatus() {
 
+  // Doughnut chart for Documents
+  documentStatus(index) {
+    let chart = am4core.create("documentStatus", am4charts.PieChart3D);
+    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+    chart.legend = new am4charts.Legend();
+
+    chart.data = [
+      {
+        name: "Success",
+        value: this.documentData[index].success
+      },
+      {
+        name: "Failed",
+        value: this.documentData[index].failed
+      },
+      {
+        name: "To Be Processed",
+        value: this.documentData[index].tbp
+      }
+    ];
+
+    chart.innerRadius = 50;
+
+    let series = chart.series.push(new am4charts.PieSeries3D());
+    series.dataFields.value = "value";
+    series.dataFields.category = "name";
+
+    series.hiddenState.properties.endAngle = -90; //Creates rotation
   }
 }

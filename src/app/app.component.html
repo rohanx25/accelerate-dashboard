@@ -10,16 +10,16 @@
         <div id="extractionBatchChart" class="stacked-bar-chart"></div>
         <div class="btn-group btn-group-sm" role="group">
           <button *ngFor="let batch of batchData; let i = index" id="BE_{{i+1}}" type="button" class="btn btn-warning"
-            (click)="batchStatus(i)">BE_{{i+1}}</button>
+            (click)="batchStatus(i); documentStatus(i)">BE_{{i+1}}</button>
         </div>
       </div>
     </div>
     <div class="row">
       <div class="col">
-        <div id="batchStatus" style="height: 20rem; width: auto;"></div>
+        <div id="batchStatus" style="height: 20rem; width: auto;" class="font-size-09"></div>
       </div>
       <div class="col">
-        <div id="documentStatus" style="height: 20rem; width: auto;"></div>
+        <div id="documentStatus" style="height: 20rem; width: auto;" class="font-size-09"></div>
       </div>
     </div>
   </div>
